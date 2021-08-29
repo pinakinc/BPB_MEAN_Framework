@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@angular/cli": "^12.2.1"
+    "@angular/cli": "^12.2.1",
+    "bootstrap": "^5.1.0"
   }
 }
