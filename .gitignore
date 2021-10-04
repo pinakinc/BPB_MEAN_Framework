@@ -1,4 +1,7 @@
 /node_modules
 /posts/node_modules
 /comments/node_modules
+<<<<<<< HEAD
 /auth/node_modules
+=======
+>>>>>>> a297059cb6fa2b19debd192b4e3bce9356c4876f
