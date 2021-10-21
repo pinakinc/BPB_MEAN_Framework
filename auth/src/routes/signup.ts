@@ -1,8 +1,10 @@
 const express = require('express');
 import {Request,Response} from 'express';
 import {body,validationResult} from 'express-validator';
+import jwt from 'jsonwebtoken';
 import {User} from '../models/user'
 import {RequestValidationErr} from '../errors/request-validation-err';
+import {BadRequestErr} from '../errors/bad-request-err';
 const router = express.Router();
 router.post('/api/users/signup',[
     body('email')
@@ -25,14 +27,23 @@ router.post('/api/users/signup',[
     const existingUser = await User.findOne({email});
 
     if (existingUser){
-        console.log ('Email is in use');
-        return res.send({});
+       throw new BadRequestErr('Email is in use');
     }
     
     const user = User.build({
         email,password
     })
     await user.save();
+
+
+    const userJwt = jwt.sign({
+        id: user.id,
+        email: user.email
+    },'asdf');
+
+    req.session = {
+        jwt: userJwt
+    };
     res.status(201).send(user);
 });
 
