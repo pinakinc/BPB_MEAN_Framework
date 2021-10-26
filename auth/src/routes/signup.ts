@@ -1,9 +1,10 @@
 const express = require('express');
+import {validateRequest} from '../middlewares/validate-request';
 import {Request,Response} from 'express';
-import {body,validationResult} from 'express-validator';
+import {body} from 'express-validator';
 import jwt from 'jsonwebtoken';
 import {User} from '../models/user'
-import {RequestValidationErr} from '../errors/request-validation-err';
+
 import {BadRequestErr} from '../errors/bad-request-err';
 const router = express.Router();
 router.post('/api/users/signup',[
@@ -14,13 +15,16 @@ router.post('/api/users/signup',[
     .trim()
     .isLength({min: 4, max: 20})
     .withMessage('Password must be between 4 and 20 characters')
-],async(req: Request,res: Response)=>{
+],
+    validateRequest,
 
-    const errors = validationResult(req);
+    async(req: Request,res: Response)=>{
 
-    if (!errors.isEmpty()){
-        throw new RequestValidationErr(errors.array());
-    }
+    //const errors = validationResult(req);
+
+    //if (!errors.isEmpty()){
+    //    throw new RequestValidationErr(errors.array());
+    //}
 
     const {email,password} = req.body;
     
@@ -39,7 +43,9 @@ router.post('/api/users/signup',[
     const userJwt = jwt.sign({
         id: user.id,
         email: user.email
-    },'asdf');
+    },
+        process.env.JWT_KEY!
+    );
 
     req.session = {
         jwt: userJwt
