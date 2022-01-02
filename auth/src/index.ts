@@ -3,13 +3,13 @@ import 'express-async-errors';
 import {json} from 'body-parser';
 import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
+import {errorHandler,NotFoundErr} from '@pcblog/common';
 
 import {currentUserRouter} from './routes/current-user';
 import {signinRouter} from './routes/signin';
 import {signoutRouter} from './routes/signout';
 import {signupRouter} from './routes/signup';
-import {errorHandler} from './middlewares/error-handler';
-import {NotFoundErr} from './errors/not-found-err';
+
 const app=express();
 app.set('trust proxy', true);
 const port = process.env.PORT || 3100;
@@ -34,8 +34,11 @@ const startup = async()=>{
     if(!process.env.JWT_KEY){
         throw new Error('Jwt key must be defined');
     }
+    if(!process.env.MONGO_URI){
+        throw new Error('MONGO_URI must be defined');
+    }
     try{
-    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to Mongo DB');
     } catch(err){
         console.error(err);

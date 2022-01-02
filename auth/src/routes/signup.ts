@@ -1,11 +1,11 @@
 const express = require('express');
-import {validateRequest} from '../middlewares/validate-request';
+
 import {Request,Response} from 'express';
 import {body} from 'express-validator';
 import jwt from 'jsonwebtoken';
+import {validateRequest,BadRequestErr} from '@pcblog/common';
 import {User} from '../models/user'
 
-import {BadRequestErr} from '../errors/bad-request-err';
 const router = express.Router();
 router.post('/api/users/signup',[
     body('email')

@@ -7,5 +7,5 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src", "../common/errors", "../common/middlewares", "../common/src/errors/middlewares", "middlewares", "middlewares"]
 }
