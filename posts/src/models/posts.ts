@@ -4,15 +4,13 @@ interface PostAttribs {
     title: string;
     content: string;
     userId: string;
-    comments: Comments;
-
+ 
 }
 
 interface PostDoc extends mongoose.Document {
     title: string;
     content: string;
     userId: string;
-    comments: Comments;
     
 }
 
@@ -39,11 +37,7 @@ const postSchema = new mongoose.Schema ({
 
     },
 
-    comments: {
-        type: Comments,
-        required: true
-    }
-
+    
 }, {
     toJSON:{
         transform(doc, ret){

@@ -7,6 +7,8 @@ import {
     NotAuthErr
 } from '@pcblog/common';
 import {Post} from '../models/posts';
+import {PostUpdatedPublisher} from '../events/publishers/post-updated-publisher';
+import {natsWrapper} from '../nats-wrapper';
 
 const router = express.Router();
 router.put('/api/posts/:id',requireAuth, [
@@ -32,10 +34,16 @@ async (req: Request,res: Response)=>{
 
     post.set({
         title: req.body.title,
-        content: req.body.price
+        content: req.body.content
     });
 
     await post.save();
+    new PostUpdatedPublisher(natsWrapper.client).publish({
+        id:post.id,
+        title:post.title,
+        content: post.content,
+        userId: post.userId
+    })
     res.send(post);
 });
 
