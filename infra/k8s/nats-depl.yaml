@@ -28,7 +28,7 @@ spec:
             '2',
             '-SD',
             '-cid',
-            'BPB_MEAN_FRAMEWORK'
+            'blog'
           ]
 ---
 apiVersion: v1
