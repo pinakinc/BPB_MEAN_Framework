@@ -22,6 +22,7 @@ router.put('/api/posts/:id',requireAuth, [
     .withMessage('Content is required')
 ], validateRequest,
 async (req: Request,res: Response)=>{
+    console.log(req.params.id);
     const post = await Post.findById(req.params.id);
 
     if (!post) {

@@ -17,13 +17,13 @@ class NatsWrapper {
 
         
         return new Promise<void>((resolve,reject)=> {
-            console.log('inside promise'+this.client.on);
+        //    console.log('inside promise'+this.client.on);
             
         this.client.on('connect',()=>{
             console.log('connected to NATS');
             resolve();
         });
-        console.log('Not connected promise');
+        //console.log('Not connected promise');
         this.client.on('error',()=>{
             console.log('some error connecting to NATS');
             reject();

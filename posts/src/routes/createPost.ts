@@ -8,7 +8,7 @@ import {natsWrapper} from '../nats-wrapper';
 
 const router = express.Router();
 
-router.post('/blogapi/posts',requireAuth,[
+router.post('/api/posts',requireAuth,[
     body('title').not().isEmpty().withMessage('Title is required'),
     body('content').not().isEmpty().withMessage('Content is required')
     
