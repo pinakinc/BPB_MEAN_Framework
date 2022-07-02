@@ -34,3 +34,11 @@ build:
         manual:
           - src: 'src/**/.ts'
             dest: .
+    - image: us.gcr.io/blog-dev-326403/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/.ts'
+            dest: .

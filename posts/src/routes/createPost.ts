@@ -1,10 +1,12 @@
 import express from 'express';
 import {Request, Response} from "express";
 import {body} from 'express-validator';
-import {requireAuth, validateRequest} from '@pcblog/common';
+import {requireAuth, validateRequest, NotFoundErr} from '@pcblog/common';
 import {Post} from '../models/posts';
+import {Comment} from '../models/comment';
 import {PostCreatedPublisher} from '../events/publishers/post-created-publisher';
 import {natsWrapper} from '../nats-wrapper';
+
 
 const router = express.Router();
 
@@ -14,11 +16,14 @@ router.post('/api/posts',requireAuth,[
     
 ],validateRequest,async (req : Request,res : Response) => 
     {
-        const {title,content}=req.body;
+        const {title,content,comment}=req.body;
+
         const post = Post.build({
             title,
             content,
             userId: req.currentUser!.id,
+            comment
+            
             
         });
         await post.save();

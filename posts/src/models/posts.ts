@@ -1,18 +1,20 @@
 import mongoose, { Mongoose } from 'mongoose';
+import {CommentDoc} from './comment'
+
 
 interface PostAttribs {
     title: string;
     content: string;
     userId: string;
- 
+    comment: CommentDoc;
 }
 
 interface PostDoc extends mongoose.Document {
     title: string;
     content: string;
     userId: string;
-    
-}
+    comment: CommentDoc;
+ }
 
 interface PostModel extends mongoose.Model<PostDoc> {
     build(attribs:PostAttribs): PostDoc
@@ -36,6 +38,10 @@ const postSchema = new mongoose.Schema ({
         required: true
 
     },
+    comment: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }
 
     
 }, {

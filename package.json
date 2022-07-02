@@ -20,5 +20,8 @@
     "nats": "^2.5.0",
     "node-nats-streaming": "^0.3.2",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^8.6.0"
   }
 }
