@@ -29,6 +29,7 @@
     "express-validator": "^6.12.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.5",
+    "node": "^16.15.1",
     "snappy": "^7.1.1",
     "ts-node-dev": "^1.1.8"
   },
