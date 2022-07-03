@@ -13,7 +13,6 @@ declare global {
 
 let mongo: any;
 beforeAll(async () => {
-    jest.setTimeout(30000);
     process.env.JWT_KEY = 'asdfadfas';
 
     mongo = new MongoMemoryServer();
