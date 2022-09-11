@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const {randomBytes}=require('crypto');
 //const bodyParser = require('body-parser');
 //const http=require('http');

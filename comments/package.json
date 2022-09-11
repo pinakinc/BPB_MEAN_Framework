@@ -1,27 +1,29 @@
 {
-  "name": "comments",
+  "name": "mean",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev src/index.ts"
+    "build": "ng build --prod"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pcblog/common": "^1.0.2",
-    "@types/cookie-session": "^2.0.43",
+    "@angular/cli": "^12.2.1",
+    "@pcblog/common": "^1.0.5",
+    "@types/amqplib": "^0.8.2",
     "@types/express": "^4.17.13",
-    "@types/jsonwebtoken": "^8.5.5",
-    "@types/mongoose": "^5.11.97",
-    "cookie-session": "^1.4.0",
+    "amqplib": "^0.8.0",
+    "bootstrap": "^5.1.0",
     "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-validator": "^6.12.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.10",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.5.4"
+    "kafka": "^0.2.3",
+    "kafka-node": "^5.0.0",
+    "mongoose": "^6.5.3",
+    "nats": "^2.5.0",
+    "node-nats-streaming": "^0.3.2",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^8.6.0"
   }
 }

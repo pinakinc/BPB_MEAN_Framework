@@ -4,7 +4,7 @@ interface commentAttrs {
     content: string;
 }
 
-interface commentDoc extends mongoose.Document {
+export interface commentDoc extends mongoose.Document {
     userId: string;
     content: string;
 }

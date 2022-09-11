@@ -2,7 +2,7 @@ import express, {Request, Response} from 'express';
 import {requireAuth,validateRequest, NotFoundErr} from '@pcblog/common';
 import {body} from 'express-validator';
 import  mongoose  from 'mongoose';
-import {Post} from '../../../posts/src/models/posts';
+import {Post} from '../models/posts';
 
 const router=express.Router();
 

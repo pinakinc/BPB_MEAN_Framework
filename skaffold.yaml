@@ -5,12 +5,12 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  #local:
-   # push: false
-  googleCloudBuild:
-    projectId: blog-dev-326403
+  local:
+    push: false
+  #googleCloudBuild:
+   # projectId: blog-dev-326403
   artifacts:
-    - image: us.gcr.io/blog-dev-326403/auth
+    - image: pinakinc/auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -18,7 +18,7 @@ build:
         manual:
           - src: 'src/**/.ts'
             dest: .
-    - image: us.gcr.io/blog-dev-326403/client
+    - image: pinakinc/client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -26,7 +26,7 @@ build:
         manual:
           - src: 'src/**/.ts'
             dest: .
-    - image: us.gcr.io/blog-dev-326403/posts
+    - image: pinakinc/posts
       context: posts
       docker:
         dockerfile: Dockerfile
@@ -34,7 +34,7 @@ build:
         manual:
           - src: 'src/**/.ts'
             dest: .
-    - image: us.gcr.io/blog-dev-326403/comments
+    - image: pinakinc/comments
       context: comments
       docker:
         dockerfile: Dockerfile

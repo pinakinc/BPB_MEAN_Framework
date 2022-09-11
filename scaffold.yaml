@@ -10,7 +10,7 @@ build:
   googleCloudBuild:
     projectId: blog-dev-326403
   artifacts:
-    - image: us.gcr.io/blog-dev-326403/auth
+    - image: pinakinc/auth
       context: auth
       docker:
         dockerfile: Dockerfile

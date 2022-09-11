@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: comments
-          image: us.gcr.io/blog-dev-326403/comments:project-latest
+          image: pinakinc/comments
           env:
             - name: NATS_CLIENT_ID
               valueFrom: 
