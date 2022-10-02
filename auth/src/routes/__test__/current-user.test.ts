@@ -22,7 +22,7 @@ it('Responds with current user details', async ()=> {
         .send()
         .expect(200);
     
-    console.log("ye hai"+response.body.toString());
+//    console.log("ye hai"+response.body.toString());
     expect(response.body.currentUser.email).toEqual('test@test.com');
 });
 
@@ -34,6 +34,6 @@ it('Response is null if not authenticated', async ()=> {
         .get('/api/users/currentuser')
         .send()
         .expect(200);
-    console.log(response.body);
+   // console.log(response.body);
     expect(response.body.currentUser).toEqual(null);
 });

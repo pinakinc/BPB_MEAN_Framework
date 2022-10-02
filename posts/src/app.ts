@@ -29,5 +29,5 @@ app.all('*',async(req,res)=>{
     throw new NotFoundErr();
 });
 app.use(errorHandler);
-console.log('tichyayla')
+//console.log('tichyayla')
 export {app};

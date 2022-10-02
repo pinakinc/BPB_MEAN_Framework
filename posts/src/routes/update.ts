@@ -11,7 +11,9 @@ import {PostUpdatedPublisher} from '../events/publishers/post-updated-publisher'
 import {natsWrapper} from '../nats-wrapper';
 
 const router = express.Router();
-router.put('/api/posts/:id',requireAuth, [
+//console.log('/api/posts/:id');
+router.put('/api/posts/:id',requireAuth, 
+[
     body('title')
     .not()
     .isEmpty()
@@ -20,32 +22,35 @@ router.put('/api/posts/:id',requireAuth, [
     .not()
     .isEmpty()
     .withMessage('Content is required')
-], validateRequest,
+],
+validateRequest,
 async (req: Request,res: Response)=>{
-    console.log(req.params.id);
-    const post = await Post.findById(req.params.id);
-
-    if (!post) {
+//    console.log('are id ye hai'+req.params.id);
+    const post_entry = await Post.findById(req.params.id);
+ //   console.log('post_entry'+post_entry);
+    if (!post_entry) {
+      //  console.log('I am throwing exception');
+        //const calci = 
         throw new NotFoundErr();
+       // console.log(calci);
     }
-
-    if (post.userId !== req.currentUser!.id) {
+  //  console.log('I am after exception');
+    if (post_entry.userId !== req.currentUser!.id) {
         throw new NotAuthErr();
     }
 
-    post.set({
+    post_entry.set({
         title: req.body.title,
         content: req.body.content
     });
 
-    await post.save();
-    new PostUpdatedPublisher(natsWrapper.client).publish({
-        id:post.id,
-        title:post.title,
-        content: post.content,
-        userId: post.userId
-    })
-    res.send(post);
+    await post_entry.save();
+   // new PostUpdatedPublisher(natsWrapper.client).publish({
+   //     id:post_entry.id,
+   //     title:post_entry.title,
+   //     content: post_entry.content,
+   //     userId: post_entry.userId
+   // })
+    res.send(post_entry);
 });
-
 export {router as updatePostRouter};
