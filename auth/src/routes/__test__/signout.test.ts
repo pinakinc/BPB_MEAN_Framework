@@ -1,17 +1,17 @@
 import request from 'supertest';
-import {app} from '../../app';
+import {auth_app} from '../../app';
 
-it('Clears the cookie after signing out', async ()=> {
-    await request(app)
+it('Cookie should be cleared after signing out', async ()=> {
+    await request(auth_app)
         .post('/api/users/signup')
         .send({
-            email: 'test@test.com',
-            password: 'password'
+            auth_email: 'test@test.com',
+            auth_password: 'password'
         })
         .expect(201);
-    const response = await request(app)
+    const auth_response = await request(auth_app)
         .post('/api/users/signout')
         .send({})
         .expect(200);
-    expect (response.get('Set-Cookie')).toBeDefined
+    expect (auth_response.get('Set-Cookie')).toBeDefined
 });

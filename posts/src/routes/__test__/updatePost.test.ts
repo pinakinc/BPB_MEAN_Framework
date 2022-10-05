@@ -1,15 +1,15 @@
 import request from 'supertest';
-import {app} from '../../app';
+import {post_app} from '../../app';
 import mongoose from 'mongoose';
 
 
-it('returns a 404 if the provided id does not exist', async () => {
+it('if the provided id does not exist returns a 404 ', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 //    console.log('generated id'+id);
 //    console.log('generated path'+`/api/posts/${id}`);
-    const response = await request(app)
+    const response = await request(post_app)
         .put(`/api/posts/${id}`)
-        .set('Cookie',global.signin())
+        .set('Cookie',global.signintoapp())
         .send({
             title:'My_Title',
             content: 'My_content'
@@ -22,7 +22,7 @@ it('returns a 404 if the provided id does not exist', async () => {
 
 it('returns a 401 if the user is not authenticated', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
-    const response = await request(app)
+    const response = await request(post_app)
         .put(`/api/posts/${id}`)
         .send({
             title:'My Title',
@@ -32,16 +32,16 @@ it('returns a 401 if the user is not authenticated', async () => {
 });
 
 it('returns a 401 if the user does not own the post', async () => {
-    const response = await request(app)
+    const response = await request(post_app)
         .post('/api/posts')
-        .set('Cookie',global.signin())
+        .set('Cookie',global.signintoapp())
         .send({
             title: 'My Title',
             content: 'My Content'
         });
-        await request(app)
+        await request(post_app)
         .put(`/api/posts/${response.body.id}`)
-        .set('Cookie',global.signin())
+        .set('Cookie',global.signintoapp())
         .send({
             title: 'My new Title',
             content: 'My new Content'
@@ -51,8 +51,8 @@ it('returns a 401 if the user does not own the post', async () => {
 
 
 it('returns a 400 if the user provides an invalid title or content', async () => {
-    const cookie = global.signin();
-    const response = await request(app)
+    const cookie = global.signintoapp();
+    const response = await request(post_app)
     .post('/api/posts')
     .set('Cookie',cookie)
     .send({
@@ -60,7 +60,7 @@ it('returns a 400 if the user provides an invalid title or content', async () =>
         content: 'My Content'
     });
 
-    await request(app)
+    await request(post_app)
     .put(`/api/posts/${response.body.id}`)
     .set('Cookie',cookie)
     .send({
@@ -69,7 +69,7 @@ it('returns a 400 if the user provides an invalid title or content', async () =>
     })
     .expect(400);
 
-    await request(app)
+    await request(post_app)
     .put(`/api/posts/${response.body.id}`)
     .set('Cookie',cookie)
     .send({
@@ -81,8 +81,8 @@ it('returns a 400 if the user provides an invalid title or content', async () =>
 });
 
 it('updates the post when valid inputs are provided', async () => {
-    const cookie = global.signin();
-    const response = await request(app)
+    const cookie = global.signintoapp();
+    const response = await request(post_app)
     .post('/api/posts')
     .set('Cookie',cookie)
     .send({
@@ -90,7 +90,7 @@ it('updates the post when valid inputs are provided', async () => {
         content: 'My Content'
     });
     
-    await request(app)
+    await request(post_app)
     .put(`/api/posts/${response.body.id}`)
     .set('Cookie',cookie)
     .send({
@@ -99,7 +99,7 @@ it('updates the post when valid inputs are provided', async () => {
     })
     .expect(200);
 
-    const ticketResponse = await request(app)
+    const ticketResponse = await request(post_app)
                             .get(`/api/posts/${response.body.id}`)
                             .send();
    // console.log('hi'+ticketResponse.body.title);

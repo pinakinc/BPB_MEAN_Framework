@@ -1,47 +1,47 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import { app } from '../app';
+import { post_app } from '../app';
 import jwt from 'jsonwebtoken';
 
 declare global {
     namespace NodeJS {
         interface Global {
-            signin(): Promise<string[]>;
+            signintoapp(): Promise<string[]>;
         }
     }
 };
 
 
-let mongo: any;
+let post_mongo: any;
 beforeAll(async () => {
     process.env.JWT_KEY = 'asdfadfas';
 
-    mongo = new MongoMemoryServer();
-    const mongoURI = await mongo.getUri();
+    post_mongo = new MongoMemoryServer();
+    const post_mongoURI = await post_mongo.getUri();
 
-    await mongoose.connect(mongoURI);
+    await mongoose.connect(post_mongoURI);
 });
 
 beforeEach(async () => {
-    const collections = await mongoose.connection.db.collections();
+    const post_collections = await mongoose.connection.db.collections();
 
-    for (let collection of collections) {
+    for (let collection of post_collections) {
         await collection.deleteMany({});
     }
 });
 
 afterAll(async () => {
-    await mongo.stop();
+    await post_mongo.stop();
     await mongoose.connection.close();
 });
 
-global.signin = () => {
+global.signintoapp = () => {
 //Build a JWT payload. {id,email}
 
 const payload = {
     id: new mongoose.Types.ObjectId().toHexString(),
-    email: 'pinakinc@yahoo.com'
+    auth_email: 'pinakinc@yahoo.com'
 };
 //Create the JWT
 const token = jwt.sign(payload,process.env.JWT_KEY!);

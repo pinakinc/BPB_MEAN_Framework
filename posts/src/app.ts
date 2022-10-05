@@ -9,25 +9,25 @@ import {indexPostRouter} from './routes/index';
 import {showPostsRouter} from './routes/showPosts';
 import {updatePostRouter} from './routes/update';
 
-const app=express();
-app.set('trust proxy', true);
+const post_app=express();
+post_app.set('trust proxy', true);
 
-app.use(json());
-app.use(cookieSession({
+post_app.use(json());
+post_app.use(cookieSession({
     signed: false,
     secure: process.env.NODE_ENV !== 'test'
 })
 );
 
-app.use(currentUser);
-app.use(createPostRouter);
-app.use(indexPostRouter);
-app.use(showPostsRouter);
-app.use(updatePostRouter);
+post_app.use(currentUser);
+post_app.use(createPostRouter);
+post_app.use(indexPostRouter);
+post_app.use(showPostsRouter);
+post_app.use(updatePostRouter);
 
-app.all('*',async(req,res)=>{
+post_app.all('*',async(req,res)=>{
     throw new NotFoundErr();
 });
-app.use(errorHandler);
-//console.log('tichyayla')
-export {app};
+post_app.use(errorHandler);
+console.log('tichyayla')
+export {post_app};

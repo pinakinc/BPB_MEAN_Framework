@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import {Password} from '../services/password';
 
 interface UserAttribs{
-    email:string;
-    password:string;
+    auth_email:string;
+    auth_password:string;
 
 }
 
@@ -13,15 +13,15 @@ interface UserModel extends mongoose.Model<UserDoc>{
 }
 
 interface UserDoc extends mongoose.Document {
-    email: string;
-    password: string;
+    auth_email: string;
+    auth_password: string;
 }
 const userSchema = new mongoose.Schema({
- email:{
+ auth_email:{
      type:String,
      required: true
     },    
- password:{
+ auth_password:{
      type:String,
      required: true
     }    
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
         transform(doc, ret){
             ret.id = ret._id;
             delete ret._id;
-            delete ret.password;
+            delete ret.auth_password;
             delete ret.__v;
 
         }
@@ -40,9 +40,9 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save',async function(done){
-    if (this.isModified('password')){
-        const hashed = await Password.toHash(this.get('password'));
-        this.set('password',hashed);
+    if (this.isModified('auth_password')){
+        const hashed = await Password.toHash(this.get('auth_password'));
+        this.set('auth_password',hashed);
     }
     done();
 });

@@ -1,11 +1,11 @@
 import request from 'supertest';
-import {app} from '../../app';
+import {auth_app} from '../../app';
 
-it('Responds with current user details', async ()=> {
+it('Responds with the details of current user', async ()=> {
 
     
     
-    const cookie = await global.signin();
+    const auth_cookie = await global.auth_signin();
     
     //const authResponse = await request(app)
     //    .post('/api/users/signup')
@@ -16,24 +16,24 @@ it('Responds with current user details', async ()=> {
     //    .expect(201);
 
     //const cookie = authResponse.get('Set-Cookie');
-    const response = await request(app)
+    const auth_response = await request(auth_app)
         .get('/api/users/currentuser')
-        .set('Cookie',cookie)
+        .set('Cookie',auth_cookie)
         .send()
         .expect(200);
     
 //    console.log("ye hai"+response.body.toString());
-    expect(response.body.currentUser.email).toEqual('test@test.com');
+    expect(auth_response.body.currentUser.auth_email).toEqual('test@test.com');
 });
 
-it('Response is null if not authenticated', async ()=> {
+it('Response should be null if user is not authenticated', async ()=> {
 
     
     
-    const response = await request(app)
+    const auth_response = await request(auth_app)
         .get('/api/users/currentuser')
         .send()
         .expect(200);
    // console.log(response.body);
-    expect(response.body.currentUser).toEqual(null);
+    expect(auth_response.body.currentUser).toEqual(null);
 });

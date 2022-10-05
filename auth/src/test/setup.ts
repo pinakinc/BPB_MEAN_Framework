@@ -1,22 +1,22 @@
 import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import { app } from '../app';
+import { auth_app } from '../app';
 
 declare global {
     namespace NodeJS {
         interface Global {
-            signin(): Promise<string[]>;
+            auth_signin(): Promise<string[]>;
         }
     }
 };
 
-let mongo: any;
+let auth_mongo: any;
 beforeAll(async () => {
-    process.env.JWT_KEY = 'asdfadfas';
+    process.env.AUTH_JWT_KEY = 'asdfadfas';
 
-    mongo = new MongoMemoryServer();
-    const mongoURI = await mongo.getUri();
+    auth_mongo = new MongoMemoryServer();
+    const mongoURI = await auth_mongo.getUri();
 
     await mongoose.connect(mongoURI);
 });
@@ -30,22 +30,22 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-    await mongo.stop();
+    await auth_mongo.stop();
     await mongoose.connection.close();
 });
 
-global.signin = async () => {
-    const email = 'test@test.com';
-    const password = 'password';
+global.auth_signin = async () => {
+    const auth_email = 'test@test.com';
+    const auth_password = 'password';
 
-    const response = await request(app)
+    const auth_response = await request(auth_app)
         .post('/api/users/signup')
         .send({
-            email,password
+            auth_email,auth_password
         })
         .expect(201);
 
-    const cookie = response.get('Set-Cookie');
+    const auth_cookie = auth_response.get('Set-Cookie');
 
-    return cookie;
+    return auth_cookie;
 };

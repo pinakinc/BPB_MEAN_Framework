@@ -1,47 +1,47 @@
 import request from 'supertest';
-import {app} from '../../app';
+import {auth_app} from '../../app';
 
-it('fails when a non-existent email is supplied', async ()=> {
-    await request(app)
+it('fails when a email that does not exist is supplied', async ()=> {
+    await request(auth_app)
         .post('/api/users/signin')
         .send({
-            email: 'test@test.com',
-            password: 'password'
+            auth_email: 'test@test.com',
+            auth_password: 'password'
         })
         .expect(400);
 });
 
-it('fails when an incorrect password is supplied', async ()=> {
-    await request(app)
+it('fails when a wrong password is supplied', async ()=> {
+    await request(auth_app)
         .post('/api/users/signup')
         .send({
-            email: 'test@test.com',
-            password: 'password'
+            auth_email: 'test@test.com',
+            auth_password: 'password'
         })
         .expect(201);
-    await request(app)
+    await request(auth_app)
         .post('/api/users/signin')
         .send({
-            email: 'test@test.com',
-            password: 'password1'
+            auth_email: 'test@test.com',
+            auth_password: 'password1'
         })
         .expect(400);
 });
 
-it('response with a cookie when given valid credentials', async ()=> {
-    await request(app)
+it('sends back a cookie when valid credentials are given', async ()=> {
+    await request(auth_app)
         .post('/api/users/signup')
         .send({
-            email: 'test@test.com',
-            password: 'password'
+            auth_email: 'test@test.com',
+            auth_password: 'password'
         })
         .expect(201);
-    const response = await request(app)
+    const auth_response = await request(auth_app)
         .post('/api/users/signin')
         .send({
-            email: 'test@test.com',
-            password: 'password'
+            auth_email: 'test@test.com',
+            auth_password: 'password'
         })
         .expect(200);
-    expect (response.get('Set-Cookie')).toBeDefined
+    expect (auth_response.get('Set-Cookie')).toBeDefined
 });

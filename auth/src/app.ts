@@ -9,24 +9,24 @@ import {signinRouter} from './routes/signin';
 import {signoutRouter} from './routes/signout';
 import {signupRouter} from './routes/signup';
 
-const app=express();
-app.set('trust proxy', true);
+const auth_app=express();
+auth_app.set('trust proxy', true);
 
-app.use(json());
-app.use(cookieSession({
+auth_app.use(json());
+auth_app.use(cookieSession({
     signed: false,
     secure: process.env.NODE_ENV !== 'test'
 })
 );
 
-app.use(currentUserRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(signupRouter);
+auth_app.use(currentUserRouter);
+auth_app.use(signinRouter);
+auth_app.use(signoutRouter);
+auth_app.use(signupRouter);
 
-app.all('*',async(req,res)=>{
+auth_app.all('*',async(req,res)=>{
     throw new NotFoundErr();
 });
-app.use(errorHandler);
+auth_app.use(errorHandler);
 //console.log('tichyayla')
-export {app};
+export {auth_app};

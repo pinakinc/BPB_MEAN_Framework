@@ -1,23 +1,23 @@
 import request from 'supertest';
-import {app} from '../../app';
+import {post_app} from '../../app';
 
 const createPost = () => {
-    return request(app)
+    return request(post_app)
         .post('/api/posts')
-        .set('Cookie',global.signin())
+        .set('Cookie',global.signintoapp())
         .send({
             title: 'My Title',
             content: 'My Content'
         });
     
 };
-it('Can fetch a list of posts', async () => {
+it('fetchs a list of posts', async () => {
     await createPost();
     await createPost();
     await createPost();
-    const response = await request(app)
+    const auth_response = await request(post_app)
                         .get('/api/posts')
                         .send()
                         .expect(200);
-    expect(response.body.length).toEqual(3);    
+    expect(auth_response.body.length).toEqual(3);    
 });

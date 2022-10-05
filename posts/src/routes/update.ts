@@ -10,9 +10,9 @@ import {Post} from '../models/posts';
 import {PostUpdatedPublisher} from '../events/publishers/post-updated-publisher';
 import {natsWrapper} from '../nats-wrapper';
 
-const router = express.Router();
+const updatepost_router = express.Router();
 //console.log('/api/posts/:id');
-router.put('/api/posts/:id',requireAuth, 
+updatepost_router.put('/api/posts/:id',requireAuth, 
 [
     body('title')
     .not()
@@ -53,4 +53,4 @@ async (req: Request,res: Response)=>{
    // })
     res.send(post_entry);
 });
-export {router as updatePostRouter};
+export {updatepost_router as updatePostRouter};

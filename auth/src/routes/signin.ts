@@ -5,28 +5,28 @@ import jwt  from 'jsonwebtoken';
 import {validateRequest, BadRequestErr} from '@pcblog/common';
 import {User} from '../models/user'
 import {Password} from '../services/password';
-const router = express.Router();
-router.post('/api/users/signin',[
-    body('email')
+const auth_router = express.Router();
+auth_router.post('/api/users/signin',[
+    body('auth_email')
     .isEmail()
     .withMessage('Email must be valid'),
-    body('password')
+    body('auth_password')
     .trim()
     .notEmpty()
     .withMessage('You must supply password')
 ]
 ,validateRequest,
 async (req: Request,res: Response)=>{
-    const {email,password} = req.body;
+    const {auth_email,auth_password} = req.body;
 
-    const existingUsr = await User.findOne({email});
+    const existingUsr = await User.findOne({auth_email});
     if (!existingUsr){
         throw new BadRequestErr('Invalid Credentials');
     }
 
     const passwordsMatching = await Password.comparePass(
-        existingUsr.password,
-        password
+        existingUsr.auth_password,
+        auth_password
     );
     if (!passwordsMatching){
         throw new BadRequestErr('Invalid Credentials');
@@ -39,9 +39,9 @@ async (req: Request,res: Response)=>{
 
      const userJwt = jwt.sign({
         id: existingUsr.id,
-        email: existingUsr.email
+        auth_email: existingUsr.auth_email
     },
-        process.env.JWT_KEY!
+        process.env.AUTH_JWT_KEY!
     );
 
     req.session = {
@@ -51,4 +51,4 @@ async (req: Request,res: Response)=>{
    }
 );
 
-export {router as signinRouter};
+export {auth_router as signinRouter};

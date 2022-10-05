@@ -6,12 +6,12 @@ import jwt from 'jsonwebtoken';
 import {validateRequest,BadRequestErr} from '@pcblog/common';
 import {User} from '../models/user'
 
-const router = express.Router();
-router.post('/api/users/signup',[
-    body('email')
+const auth_router = express.Router();
+auth_router.post('/api/users/signup',[
+    body('auth_email')
     .isEmail()
     .withMessage('Email must be valid'),
-    body('password')
+    body('auth_password')
     .trim()
     .isLength({min: 4, max: 20})
     .withMessage('Password must be between 4 and 20 characters')
@@ -26,25 +26,25 @@ router.post('/api/users/signup',[
     //    throw new RequestValidationErr(errors.array());
     //}
 
-    const {email,password} = req.body;
+    const {auth_email,auth_password} = req.body;
     
-    const existingUser = await User.findOne({email});
+    const existingUser = await User.findOne({auth_email});
 
     if (existingUser){
        throw new BadRequestErr('Email is in use');
     }
     
     const user = User.build({
-        email,password
+        auth_email,auth_password
     })
     await user.save();
 
 
     const userJwt = jwt.sign({
         id: user.id,
-        email: user.email
+        auth_email: user.auth_email
     },
-        process.env.JWT_KEY!
+        process.env.AUTH_JWT_KEY!
     );
 
     req.session = {
@@ -53,4 +53,4 @@ router.post('/api/users/signup',[
     res.status(201).send(user);
 });
 
-export {router as signupRouter};
+export {auth_router as signupRouter};

@@ -16,15 +16,15 @@ spec:
         - name: posts
           image: pinakinc/posts
           env:
-            - name: NATS_CLIENT_ID
+            - name: POSTS_NATS_CLIENT_ID
               valueFrom: 
                 fieldRef:
                   fieldPath: metadata.name
-            - name: NATS_URL
+            - name: POSTS_NATS_URL
               value: 'http://nats-srv:4222'
-            - name: NATS_CLUSTER_ID
+            - name: POSTS_NATS_CLUSTER_ID
               value: 'blog'
-            - name: MONGO_URI
+            - name: POSTS_MONGO_URI
               value: 'mongodb://posts-mongo-srv:27017/posts'
             - name: JWT_KEY
               valueFrom:

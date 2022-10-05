@@ -8,9 +8,9 @@ import {PostCreatedPublisher} from '../events/publishers/post-created-publisher'
 import {natsWrapper} from '../nats-wrapper';
 
 
-const router = express.Router();
+const createpost_router = express.Router();
 
-router.post('/api/posts',requireAuth,[
+createpost_router.post('/api/posts',requireAuth,[
     body('title').not().isEmpty().withMessage('Title is required'),
     body('content').not().isEmpty().withMessage('Content is required')
     
@@ -34,4 +34,4 @@ router.post('/api/posts',requireAuth,[
 //        res.sendStatus(200);
     });
 
-export {router as createPostRouter};
+export {createpost_router as createPostRouter};
