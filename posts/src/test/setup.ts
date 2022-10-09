@@ -12,10 +12,10 @@ declare global {
     }
 };
 
-
+jest.mock('../nats-wrapper');
 let post_mongo: any;
 beforeAll(async () => {
-    process.env.JWT_KEY = 'asdfadfas';
+    process.env.AUTH_JWT_KEY = 'asdfadfas';
 
     post_mongo = new MongoMemoryServer();
     const post_mongoURI = await post_mongo.getUri();
@@ -24,6 +24,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    jest.clearAllMocks();
     const post_collections = await mongoose.connection.db.collections();
 
     for (let collection of post_collections) {
@@ -44,7 +45,7 @@ const payload = {
     auth_email: 'pinakinc@yahoo.com'
 };
 //Create the JWT
-const token = jwt.sign(payload,process.env.JWT_KEY!);
+const token = jwt.sign(payload,process.env.AUTH_JWT_KEY!);
 //Build a session object {jwt: MY_JWT}
 const session = {jwt: token};
 //Turn that session into JSON

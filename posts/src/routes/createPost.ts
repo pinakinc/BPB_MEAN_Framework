@@ -17,20 +17,21 @@ createpost_router.post('/api/posts',requireAuth,[
 ],validateRequest,async (req : Request,res : Response) => 
     {
         const {title,content}=req.body;
-
+        console.log('ye ppa'+req.currentUser!.id);
         const post = Post.build({
             title,
             content,
             userId: req.currentUser!.id
         });
         await post.save();
-        /*new PostCreatedPublisher(natsWrapper.client).publish({
+        new PostCreatedPublisher(natsWrapper.client).publish({
             id: post.id,
             title: post.title,
             content: post.content,
             userId: post.userId
-        });*/
+        });
         res.status(201).send(post);
+        
 //        res.sendStatus(200);
     });
 

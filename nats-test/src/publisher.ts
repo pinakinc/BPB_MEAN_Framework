@@ -7,7 +7,7 @@ const stan = nats.connect('blog','def',{
     stan.on('connect',async ()=>{
         console.log('Publisher connected to Nats');
 
-        const data = JSON.stringify({
+       /* const data = JSON.stringify({
             id:'123',
             title: 'concert',
             content: 'buys concert'
@@ -15,19 +15,19 @@ const stan = nats.connect('blog','def',{
     
         stan.publish('post:created',data,()=>{
             console.log('Event published');
-        });
+        });*/
 
 
-//        const publisher = new PostCreatedPublisher(stan);
+        const publisher = new PostCreatedPublisher(stan);
 //        try {
-//        await publisher.publish({
-//            id: '123',
-//            title: 'New entries from Automation Geek',
-//            content: 'New entries added',
+        await publisher.publish({
+            id: '123',
+            title: 'New entries from Automation Geek',
+            content: 'New entries added',
             
-//        });
-//    } catch (err){
-//        console.error(err);
+        });
+  //  } catch (err){
+    //    console.error(err);
     });
         
     

@@ -3,7 +3,7 @@ import {post_app} from '../../app';
 import mongoose from 'mongoose';
 
 
-it('returns a 404 if the post is not found', async () => {
+it('if the post is not found, return 404', async () => {
     const id = new mongoose.Types.ObjectId().toHexString;
     const response = await request(post_app)
         .get(`/api/posts/${id}`)
@@ -11,7 +11,7 @@ it('returns a 404 if the post is not found', async () => {
         
 });
 
-it('returns the post if the post is found', async () => {
+it('returns the post if found', async () => {
     const title = 'My blog';
     const content = 'some content';
     const response = await request(post_app)

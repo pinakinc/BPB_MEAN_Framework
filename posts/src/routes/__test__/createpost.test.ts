@@ -1,6 +1,8 @@
 import request from 'supertest';
 import {post_app} from '../../app';
 import {Post} from '../../models/posts';
+import {natsWrapper} from '../../nats-wrapper';
+
 
 it('has a valid route handler listening to /api/posts for post requests', async () => {
     const response = await request(post_app)
@@ -84,4 +86,16 @@ it('when valid inputs are provided, create a post', async () => {
     posts = await Post.find({});
     expect (posts.length).toEqual(1);
 
+});
+
+it('publishes an event',async ()=>{
+    await request(post_app)
+    .post('/api/posts')
+    .set('Cookie',global.signintoapp())
+    .send({
+        title: 'my title',
+        content: 'my content'
+    })
+    .expect(201);
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

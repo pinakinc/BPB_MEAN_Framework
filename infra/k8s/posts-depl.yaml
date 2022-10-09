@@ -26,11 +26,11 @@ spec:
               value: 'blog'
             - name: POSTS_MONGO_URI
               value: 'mongodb://posts-mongo-srv:27017/posts'
-            - name: JWT_KEY
+            - name: AUTH_JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
-                  key: JWT_KEY
+                  key: AUTH_JWT_KEY
 ---
 apiVersion: v1
 kind: Service

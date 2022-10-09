@@ -16,21 +16,21 @@ spec:
         - name: comments
           image: pinakinc/comments
           env:
-            - name: NATS_CLIENT_ID
+            - name: POSTS_NATS_CLIENT_ID
               valueFrom: 
                 fieldRef:
                   fieldPath: metadata.name
-            - name: NATS_URL
+            - name: POSTS_NATS_URL
               value: 'http://nats-srv:4222'
-            - name: NATS_CLUSTER_ID
+            - name: POSTS_NATS_CLUSTER_ID
               value: 'blog'
-            - name: MONGO_URI
+            - name: POSTS_MONGO_URI
               value: 'mongodb://comments-mongo-srv:27017/comments'
-            - name: JWT_KEY
+            - name: AUTH_JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
-                  key: JWT_KEY
+                  key: AUTH_JWT_KEY
 ---
 apiVersion: v1
 kind: Service

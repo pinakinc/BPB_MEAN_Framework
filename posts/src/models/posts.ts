@@ -6,12 +6,15 @@ interface PostAttribs {
     title: string;
     content: string;
     userId: string;
+    comment: CommentDoc;
+
 }
 
 interface PostDoc extends mongoose.Document {
     title: string;
     content: string;
     userId: string;
+    comment: CommentDoc;
  }
 
 interface PostModel extends mongoose.Model<PostDoc> {
@@ -35,7 +38,12 @@ const postSchema = new mongoose.Schema ({
         type: String,
         required: true
 
+    },
+    comment: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
     }
+
     
 
     

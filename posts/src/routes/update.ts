@@ -45,12 +45,12 @@ async (req: Request,res: Response)=>{
     });
 
     await post_entry.save();
-   // new PostUpdatedPublisher(natsWrapper.client).publish({
-   //     id:post_entry.id,
-   //     title:post_entry.title,
-   //     content: post_entry.content,
-   //     userId: post_entry.userId
-   // })
+    new PostUpdatedPublisher(natsWrapper.client).publish({
+        id:post_entry.id,
+        title:post_entry.title,
+        content: post_entry.content,
+        userId: post_entry.userId
+    });
     res.send(post_entry);
 });
 export {updatepost_router as updatePostRouter};

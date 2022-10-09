@@ -24,9 +24,9 @@ class NatsWrapper {
             resolve();
         });
         //console.log('Not connected promise');
-        this.client.on('error',()=>{
+        this.client.on('error',(err)=>{
             console.log('some error connecting to NATS');
-            reject();
+            reject(err);
         });
     });
     }
