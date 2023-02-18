@@ -14,11 +14,17 @@ it('if the post is not found, return 404', async () => {
 it('returns the post if found', async () => {
     const title = 'My blog';
     const content = 'some content';
+    const comments = [
+        {
+            content: 'Nice Post',
+            createdDt: 20230131
+        }
+    ];
     const response = await request(post_app)
         .post('/api/posts')
         .set('Cookie',global.signintoapp())
         .send({
-            title,content
+            title,content,comments
         })
         .expect(201);
     const postResponse = await request(post_app)

@@ -66,6 +66,10 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "host": "blog.dev",
+            "port": 80
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
@@ -80,6 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
+            
             "browserTarget": "Angular-Mean:build"
           }
         },

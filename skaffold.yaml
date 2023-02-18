@@ -4,7 +4,9 @@ deploy:
   kubectl: 
     manifests:
       - ./infra/k8s/*
+#platforms: ["linux/amd64"]
 build:
+  #platforms: ["linux/amd64"]
   local:
     push: false
   #googleCloudBuild:

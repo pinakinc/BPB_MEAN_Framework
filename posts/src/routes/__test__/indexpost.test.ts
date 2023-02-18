@@ -7,7 +7,12 @@ const createPost = () => {
         .set('Cookie',global.signintoapp())
         .send({
             title: 'My Title',
-            content: 'My Content'
+            content: 'My Content',
+            comments: [            {
+                content:'hi',
+                createdDt:20230101
+            }
+]
         });
     
 };

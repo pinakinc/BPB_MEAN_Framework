@@ -43,6 +43,6 @@ commentSchema.statics.build = (attribs: CommentAttribs)=>{
     return new Comment(attribs);
 };
 
-const Comment = mongoose.model<CommentDoc,CommentModel>('Post',commentSchema);
+const Comment = mongoose.model<CommentDoc,CommentModel>('Comment',commentSchema);
 
 export {Comment};

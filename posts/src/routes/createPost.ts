@@ -16,20 +16,45 @@ createpost_router.post('/api/posts',requireAuth,[
     
 ],validateRequest,async (req : Request,res : Response) => 
     {
-        const {title,content}=req.body;
-        console.log('ye ppa'+req.currentUser!.id);
+        const {title,content,comments}=req.body;
+        console.log('ye ppa',comments[0]);
+
+        const commentB = Comment.build({
+            content: req.body.comments[0].content,
+            createdDt: req.body.comments[0].createdDt
+        });
+        console.log('This is commentB',commentB);
+      //  comment.save(commentB).then(function(err,data) {
+      //      console.log('this is saved: ',data)
+      //  });
+      //  const Comment1 = comment.findById(commentB._id);
+      //  console.debug('Built comment',Comment1._id);
+        
         const post = Post.build({
             title,
             content,
-            userId: req.currentUser!.id
+            userId: req.currentUser!.id,
+			comments: commentB
         });
-        await post.save();
+        //post.comment._id=commentB._id
+        
+        //console.log('Post after build',post);
+        
+        //console.debug('Extracted comment:',post.comments);
+        await commentB.save(function(err,data){
+            console.log('Saved data',data)
+        });
+        await post.save(function(err,data){
+            console.log('Saved data',data)
+        });
         new PostCreatedPublisher(natsWrapper.client).publish({
             id: post.id,
             title: post.title,
             content: post.content,
             userId: post.userId
         });
+        console.log('Post before send',post.comments[0]);
+        //post.comments[0]
         res.status(201).send(post);
         
 //        res.sendStatus(200);

@@ -15,6 +15,7 @@ spec:
       containers:
         - name: auth
           image: pinakinc/auth
+          imagePullPolicy: IfNotPresent
           env:
             - name: AUTH_MONGO_URI
               value: 'mongodb://auth-mongo-srv:27017/auth'
